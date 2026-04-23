@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Variables para modo claro/oscuro */
+        :root {
+            --bg-body: #f4f4f4;
+            --bg-container: white;
+            --text-color: #333;
+            --border-color: #ddd;
+            --btn-filtro: #ddd;
+            --btn-filtro-active: #007bff;
+            --btn-agregar: #28a745;
+            --btn-agregar-hover: #218838;
+            --btn-eliminar: #dc3545;
+            --btn-eliminar-hover: #c82333;
+            --tarea-bg: white;
+            --tarea-border: #eee;
+            --tarea-hover: #f9f9f9;
+            --text-secundario: #666;
+            --test-bg: #1e1e1e;
+            --test-text: #4ec9b0;
+        }
+
+        body.dark {
+            --bg-body: #1a1a2e;
+            --bg-container: #16213e;
+            --text-color: #eee;
+            --border-color: #0f3460;
+            --btn-filtro: #0f3460;
+            --btn-filtro-active: #e94560;
+            --btn-agregar: #e94560;
+            --btn-agregar-hover: #c73a54;
+            --btn-eliminar: #dc3545;
+            --btn-eliminar-hover: #c82333;
+            --tarea-bg: #1a1a2e;
+            --tarea-border: #0f3460;
+            --tarea-hover: #1f3a5f;
+            --text-secundario: #aaa;
+            --test-bg: #0f0f1a;
+            --test-text: #4ec9b0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg-body);
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--bg-container);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        /* Header con modo oscuro */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .dark-mode-btn {
+            background: var(--btn-filtro);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        h3 {
+            margin: 15px 0 10px 0;
+            color: var(--text-color);
+        }
+
+        /* Filtros */
+        .filtros {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filtro-btn {
+            padding: 8px 16px;
+            border: none;
+            background: var(--btn-filtro);
+            cursor: pointer;
+            border-radius: 20px;
+            color: var(--text-color);
+            transition: all 0.2s;
+        }
+
+        .filtro-btn.activo {
+            background: var(--btn-filtro-active);
+            color: white;
+        }
+
+        /* Búsqueda */
+        #buscarInput {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-container);
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        /* Formulario */
+        #tituloInput, #descripcionInput, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-container);
+            color: var(--text-color);
+            margin-bottom: 10px;
+            font-family: Arial;
+        }
+
+        select {
+            width: auto;
+            margin-left: 10px;
+        }
+
+        .prioridad-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .prioridad-group label {
+            color: var(--text-color);
+        }
+
+        #agregarBtn {
+            width: 100%;
+            padding: 12px;
+            background: var(--btn-agregar);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #agregarBtn:hover {
+            background: var(--btn-agregar-hover);
+        }
+
+        /* Lista de tareas */
+        .todo-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 2px solid var(--border-color);
+            margin-top: 20px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .todo-header span:first-child { flex: 1; }
+        .todo-header span:nth-child(2) { width: 80px; text-align: center; }
+        .todo-header span:last-child { width: 70px; text-align: center; }
+
+        #listaTareas {
+            list-style: none;
+        }
+
+        .tarea-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--tarea-border);
+            background: var(--tarea-bg);
+            transition: background 0.2s;
+        }
+
+        .tarea-item:hover {
+            background: var(--tarea-hover);
+        }
+
+        .tarea-info {
+            flex: 1;
+        }
+
+        .tarea-titulo {
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .tarea-desc {
+            font-size: 12px;
+            color: var(--text-secundario);
+            margin-top: 3px;
+        }
+
+        .tarea-fecha {
+            font-size: 10px;
+            color: var(--text-secundario);
+            margin-top: 3px;
+        }
+
+        /* Prioridades */
+        .prioridad-badge {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 8px;
+            display: inline-block;
+        }
+        .prioridad-alta { background: #ffebee; color: #c62828; }
+        .prioridad-media { background: #fff3e0; color: #ef6c00; }
+        .prioridad-baja { background: #e8f5e9; color: #2e7d32; }
+        body.dark .prioridad-alta { background: #4a1a1a; color: #ff8a80; }
+        body.dark .prioridad-media { background: #4a3a1a; color: #ffb74d; }
+        body.dark .prioridad-baja { background: #1a4a1a; color: #81c784; }
+
+        /* Tarea completada */
+        .tarea-completada .tarea-titulo {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        .tarea-completada .tarea-desc {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        /* Acciones */
+        .acciones {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .completar-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .eliminar-btn {
+            background: var(--btn-eliminar);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .eliminar-btn:hover {
+            background: var(--btn-eliminar-hover);
+        }
+
+        .stats {
+            text-align: center;
+            padding-top: 15px;
+            margin-top: 15px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secundario);
+            font-size: 13px;
+        }
+
+        .test-console {
+            background: var(--test-bg);
+            color: var(--test-text);
+            padding: 12px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 11px;
+            border-radius: 8px;
+            max-height: 140px;
+            overflow-y: auto;
+        }
+
+        .mensaje-vacio {
+            text-align: center;
+            color: var(--text-secundario);
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Lista de Tareas</h1>
+            <button class="dark-mode-btn" id="darkModeBtn">Modo Oscuro</button>
+        </div>
+
+        <!-- Filtros (HU3) -->
+        <h3> Filtros</h3>
+        <div class="filtros">
+            <button class="filtro-btn activo" data-filtro="todas">Todas</button>
+            <button class="filtro-btn" data-filtro="completadas">Completadas</button>
+            <button class="filtro-btn" data-filtro="pendientes">Pendientes</button>
+        </div>
+
+        <!-- Búsqueda (HU6) -->
+        <h3>Buscar</h3>
+        <input type="text" id="buscarInput" placeholder="Buscar por título o descripción...">
+
+        <!-- Agregar tarea (HU1) -->
+        <h3> Nueva Tarea</h3>
+        <input type="text" id="tituloInput" placeholder="Título *">
+
+        <textarea id="descripcionInput" rows="2" placeholder="Descripción (opcional)"></textarea>
+
+        <!-- Prioridad (HU7 - Innovación) -->
+        <div class="prioridad-group">
+            <label> Prioridad:</label>
+            <select id="prioridadSelect">
+                <option value="alta">🔴 Alta</option>
+                <option value="media" selected>🟡 Media</option>
+                <option value="baja">🟢 Baja</option>
+            </select>
+        </div>
+
+        <button id="agregarBtn">➕ Agregar Tarea</button>
+
+        <!-- Lista de tareas -->
+        <div class="todo-header">
+            <span> Descripción</span>
+            <span> Eliminar</span>
+        </div>
+        <ul id="listaTareas">
+            <li class="mensaje-vacio"> No hay tareas. ¡Agrega una!</li>
+        </ul>
+
+        <!-- Estadísticas -->
+        <div class="stats" id="stats"></div>
+
+        <!-- Pruebas TDD -->
+        <div class="test-console" id="testConsole">
+            <strong>Pruebas TDD</strong>
+            <div id="testOutput">Ejecutando pruebas...</div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
