@@ -1,4 +1,3 @@
-
 let tareas = [];
 let filtroActual = "todas";
 let textoBusqueda = "";
