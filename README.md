@@ -1,6 +1,6 @@
 # ToDo-Refactorizado
 
-Aplicación de lista de tareas desarrollada para el **Lab U3-01** de Ingeniería de Software.
+Aplicación de lista de tareas desarrollada para el **Lab U3-02** de Ingeniería de Software.
 
 ## Funcionalidades
 
