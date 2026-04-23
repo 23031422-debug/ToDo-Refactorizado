@@ -1,0 +1,249 @@
+/* RESET Y BASE  */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #f0f2f5;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* TÍTULOS */
+h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #333;
+    text-align: center;
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    color: #555;
+}
+
+/*FILTROS*/
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: #e0e0e0;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    background: #ccc;
+}
+
+.filter-btn.active {
+    background: #2196f3;
+    color: white;
+}
+
+/* BÚSQUEDA */
+.search-section input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.search-section input:focus {
+    outline: none;
+    border-color: #2196f3;
+}
+
+/* FORMULARIO*/
+.form-section input,
+.form-section textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.form-section input:focus,
+.form-section textarea:focus {
+    outline: none;
+    border-color: #2196f3;
+}
+
+.form-section textarea {
+    resize: vertical;
+}
+
+#addBtn {
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+#addBtn:hover {
+    background: #45a049;
+}
+
+/*LISTA DE TAREAS*/
+.todo-list {
+    margin-top: 30px;
+}
+
+.todo-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 2px solid #ddd;
+    font-weight: 600;
+    color: #555;
+}
+
+.todo-header span:first-child {
+    flex: 1;
+}
+
+.todo-header span:last-child {
+    width: 100px;
+    text-align: center;
+}
+
+#taskList {
+    list-style: none;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s;
+}
+
+.task-item:hover {
+    background: #f9f9f9;
+}
+
+.task-info {
+    flex: 1;
+}
+
+.task-title {
+    font-weight: 500;
+    color: #333;
+    font-size: 15px;
+}
+
+.task-desc {
+    font-size: 13px;
+    color: #777;
+    margin-top: 4px;
+}
+
+.task-actions {
+    width: 100px;
+    text-align: center;
+}
+
+.complete-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* Tarea completada */
+.task-item.completed .task-title {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.task-item.completed .task-desc {
+    text-decoration: line-through;
+    color: #bbb;
+}
+
+.empty-message {
+    text-align: center;
+    color: #999;
+    padding: 40px;
+    list-style: none;
+}
+
+/*ESTADÍSTICAS*/
+.stats {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    text-align: center;
+    color: #666;
+    font-size: 13px;
+}
+
+/*CONSOLA DE PRUEBAS TDD */
+.test-console {
+    background: #1e1e1e;
+    color: #4ec9b0;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 11px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.test-console strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #d4d4d4;
+}
+
+/*RESPONSIVE*/
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .filter-buttons {
+        gap: 8px;
+    }
+    
+    .filter-btn {
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+}
